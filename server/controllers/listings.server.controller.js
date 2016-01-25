@@ -33,6 +33,7 @@ exports.create = function(req, res) {
       res.status(404).send(err);
     } else {
       res.json(listing);
+      console.log('Created new listing');
     }
   });
 };
@@ -58,6 +59,7 @@ exports.update = function(req, res) {
       latitude: req.results.lat,
       longitude: req.results.lng
     };
+  }
 
 
   listing.save(function(err) {
@@ -68,7 +70,8 @@ exports.update = function(req, res) {
       res.json(listing);
       console.log('Listing updated.')
     }
-});
+  });
+};
 
 /* Delete a listing */
 exports.delete = function(req, res) {
@@ -84,11 +87,23 @@ exports.delete = function(req, res) {
       console.log('Listing removed.')
     }
   })
-});
+};
 
 /* Retreive all the directory listings, sorted alphabetically by listing code */
 exports.list = function(req, res) {
   /* Your code here */
+  var listing = req.listing;
+
+  /* Remove the article */
+  listing.remove(function(err) {
+    if(err) {
+      console.log(err);
+      res.status(404).send(err);
+    } else {
+      res.json(listing);
+      console.log('Listing removed.')
+    }
+  })
 };
 
 /*
@@ -106,5 +121,5 @@ exports.listingByID = function(req, res, next, id) {
       req.listing = listing;
       next();
     }
-  }
-});
+  })
+};
