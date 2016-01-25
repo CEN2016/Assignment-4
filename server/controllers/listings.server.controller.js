@@ -2,6 +2,7 @@
 /* Dependencies */
 var mongoose = require('mongoose'),
     Listing = require('../models/listings.server.model.js');
+    config = require('../config/config.js');
 
 /*
   In this file, you should use Mongoose queries in order to retrieve/add/remove/update listings.
@@ -92,18 +93,15 @@ exports.delete = function(req, res) {
 /* Retreive all the directory listings, sorted alphabetically by listing code */
 exports.list = function(req, res) {
   /* Your code here */
-  var listing = req.listing;
+  console.log("Lists");
+
+   Listing.find({}, function(err, docs) {
+   if(err) throw err;
+   res.json(docs);
+   console.log('Got docs ' + docs.length);
+ });
 
   /* Remove the article */
-  listing.remove(function(err) {
-    if(err) {
-      console.log(err);
-      res.status(404).send(err);
-    } else {
-      res.json(listing);
-      console.log('Listing removed.')
-    }
-  })
 };
 
 /*
