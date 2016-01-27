@@ -91,10 +91,14 @@ exports.list = function(req, res) {
   console.log("Lists");
 
    Listing.find({}, function(err, docs) {
-   if(err) throw err;
-   res.json(docs);
-   console.log('Got docs ' + docs.length);
- });
+     if(err) throw err;
+     res.json(docs.sort(function(a, b){
+      if(a.code < b.code) return -1;
+      if(a.code > b.code) return 1;
+      return 0;
+     }));
+     console.log('Got docs ' + docs.length);
+   });
 
   /* Remove the article */
 };
